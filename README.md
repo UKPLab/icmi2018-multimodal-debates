@@ -14,3 +14,4 @@ The debate is available online at YouTube: https://youtu.be/Hybsgj1MIZ4
 
 The debate is segmented into turns, where each turn consists of a politician talking without a major interruption by the other politician or one of the journalists.
 Small interruptions can occur though.
+So, the first step for preprocessing the debate video file is to segment it in turns.
