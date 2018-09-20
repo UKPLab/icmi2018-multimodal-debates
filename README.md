@@ -21,7 +21,7 @@ We also recommend using a virtual enviroment.
 The packages used in our experiments can be installed by the following command
 
 ```
-pip3 install -r requirements.txt
+(venv) pip3 install -r requirements.txt
 ```
 
 Besides that, we also used third party open source software for preprocessing the debate video file:
@@ -33,4 +33,8 @@ Besides that, we also used third party open source software for preprocessing th
 The debate is segmented into turns, where each turn consists of a politician talking without a major interruption by the other politician or one of the journalists.
 Small interruptions can occur though.
 So, the first step for preprocessing the debate video file is to segment it in turns.
+Run the following script to segment the debate video:
 
+```
+$(venv) python preprocessing/turns_segmentation.py resources/turns_segmentation.yaml
+```
