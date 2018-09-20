@@ -194,7 +194,7 @@ def get_turn_content(first_fragment, last_fragment, transcripts):
 
 
 if __name__ == "__main__":
-	with open("turns_segmentation.yaml", "r") as yaml_file:
+	with open(sys.argv[1], "r") as yaml_file:
 		yaml_file_content = yaml.load(yaml_file)
 	video_file_path = yaml_file_content["video_file_path"][0]
 	transcripts_file_path = yaml_file_content["transcript_file_path"][0]
