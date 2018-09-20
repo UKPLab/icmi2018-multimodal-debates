@@ -134,7 +134,7 @@ def read_textual_transcripts(transcripts_file_path):
         with open(transcripts_file_path, "r", encoding="utf-8") as transcripts_file:
                 lines = transcripts_file.readlines()
                 i = 0
-                while i < len(lines):
+                while i < (len(lines) - 1):
                         line = lines[i]
                         if len(line.strip()) == 0:
                                 i = i + 1
