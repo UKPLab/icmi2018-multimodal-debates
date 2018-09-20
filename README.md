@@ -30,7 +30,7 @@ Besides that, we also used third party open source software for preprocessing th
 
 * OpenFace - https://github.com/TadasBaltrusaitis/OpenFace
 
-* openSMILE - https://www.audeering.com/technology/opensmile/
+* openSMILE - https://www.audeering.com/technology/opensmile/ (If you cannot compile the latest version in Ubuntu, try this https://github.com/naxingyu/opensmile/issues/2#issuecomment-354319202)
 
 The debate is segmented into turns, where each turn consists of a politician talking without a major interruption by the other politician or one of the journalists.
 Small interruptions can occur though.
