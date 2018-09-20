@@ -198,7 +198,7 @@ if __name__ == "__main__":
 		yaml_file_content = yaml.load(yaml_file)
 	video_file_path = yaml_file_content["video_file_path"][0]
 	transcripts_file_path = yaml_file_content["transcript_file_path"][0]
-	output_seconds_level_folder_path = yaml_file_content["output_seconds_level_folder_path"][0]
+	output_seconds_level_folder_path = yaml_file_content["output_folder_path"][0]
 	crm_file_path = yaml_file_content["crm_file_path"][0]
 	crm_file_content = parse_crm_file(crm_file_path)
 	transcripts = read_textual_transcripts(transcripts_file_path)
