@@ -30,6 +30,8 @@ Besides that, we also used third party open source software for preprocessing th
 
 * OpenFace - https://github.com/TadasBaltrusaitis/OpenFace
 
+* openSMILE - https://www.audeering.com/technology/opensmile/
+
 The debate is segmented into turns, where each turn consists of a politician talking without a major interruption by the other politician or one of the journalists.
 Small interruptions can occur though.
 So, the first step for preprocessing the debate video file is to segment it in turns.
