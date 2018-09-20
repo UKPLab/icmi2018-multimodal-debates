@@ -26,7 +26,7 @@ pip3 install -r requirements.txt
 
 Besides that, we also used third party open source software for preprocessing the debate video file:
 
-* FFMpeg - https://www.ffmpeg.org/
+* FFmpeg - https://www.ffmpeg.org/
 
 * OpenFace - https://github.com/TadasBaltrusaitis/OpenFace
 
