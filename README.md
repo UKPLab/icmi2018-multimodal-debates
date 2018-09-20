@@ -40,3 +40,5 @@ Run the following script to segment the debate video:
 ```
 $(venv) python preprocessing/turns_segmentation.py resources/turns_segmentation.yaml
 ```
+
+The YAML file "turns_segmentation.yaml" has the input the video file, the textual transcripts file, the output folder path containing the turns segmented, and the input content response measurement (crm) file containing the average impression scores together with other information manually annotated (speaker, type of argumentation being used, and so on).
