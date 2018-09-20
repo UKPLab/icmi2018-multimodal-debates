@@ -1,1 +1,2 @@
 PyYAML==3.12
+num2words==0.5.6
