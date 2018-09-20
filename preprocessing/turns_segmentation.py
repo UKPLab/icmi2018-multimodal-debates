@@ -254,7 +254,7 @@ if __name__ == "__main__":
                 labels_file_name_path = os.path.join(sub_folder_path, labels_file_name)
                 with open(labels_file_name_path, "wb") as labels_file:
                         pickle.dump(deltas, labels_file, pickle.HIGHEST_PROTOCOL)
-                os.system("ffmpeg -i " + video_file_path + " -ss " + str(t_0) + 
+                os.system("ffmpeg -i " + video_file_path + " -strict -2 -ss " + str(t_0) + 
                                   " -t " + str(t_f - t_0) + " " + video_fragment_file_path)
                 os.system("ffmpeg -i " + video_file_path + 
                                   " -vn -acodec pcm_s16le -ar 48000 -ac 1 -ss " + str(t_0) + 
