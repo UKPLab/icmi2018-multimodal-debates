@@ -18,7 +18,7 @@ However, the debate is publicly available online at YouTube: https://youtu.be/Hy
 
 We used Python 3 in our experiments, so we recommend also using it to reproduce the experiments.
 We also recommend using a virtual enviroment.
-The packages used in our experiments can be installed by the following command
+The packages used in our experiments can be installed by the following command:
 
 ```
 (venv) pip3 install -r requirements.txt
