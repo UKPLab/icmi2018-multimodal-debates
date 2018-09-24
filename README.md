@@ -1,4 +1,4 @@
-# Multimodal Prediction of Audience's Impression in Political Debates
+# Multimodal Prediction of the Audience's Impression in Political Debates
 
 Source code and data (raw and preprocessed) for training multimodal approaches to predict the impression given by politicians in TV debates.
 
