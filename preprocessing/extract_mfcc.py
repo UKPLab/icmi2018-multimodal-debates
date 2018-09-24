@@ -25,9 +25,9 @@ if __name__ == '__main__':
                         format='%(asctime)s %(levelname)s %(message)s')
     logging.info("Starting script")
     yaml_file_path = sys.argv[1]
-	with open(yaml_file_path, "r") as yaml_file:
-		yaml_file_content = yaml.load(yaml_file)
-	opensmile_path = yaml_file_content["opensmile_path"][0]
-	conf_file = yaml_file_content["conf_file"][0]
+    with open(yaml_file_path, "r") as yaml_file:
+                yaml_file_content = yaml.load(yaml_file)
+    opensmile_path = yaml_file_content["opensmile_path"][0]
+    conf_file = yaml_file_content["conf_file"][0]
     input_folder_path = yaml_file_content["input_folder_path"][0]
-    extract_mfcc_opensmile(conf_file, input_folder_path)
+    extract_mfcc_opensmile(opensmile_path, conf_file, input_folder_path)
