@@ -13,8 +13,6 @@ def extract_mfcc_opensmile(conf_file, input_folder_path):
         subfolder_path = join(input_folder_path, subfolder_name)
         speech_file_path = join(subfolder_path, speech_file_name)
         logging.info("Reading file:" + speech_file_path)
-        os.remove(join(subfolder_path, output_file_name))
-        os.remove(join(subfolder_path, "output.csv"))
         os.system("SMILExtract_Release -C " + conf_file + " -I " +
                   speech_file_path + " -outputfile " +
                   join(subfolder_path, output_file_name))
