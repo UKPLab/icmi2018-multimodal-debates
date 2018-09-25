@@ -28,7 +28,7 @@ Besides that, we also used third party open source software for preprocessing th
 
 * FFmpeg - https://www.ffmpeg.org/
 
-* OpenFace - https://github.com/TadasBaltrusaitis/OpenFace
+* OpenFace - https://github.com/TadasBaltrusaitis/OpenFace (I recommend disabling java and python support when compiling opencv in ubuntu)
 
 * openSMILE - https://www.audeering.com/technology/opensmile/ (If you cannot compile the latest version in Ubuntu, try this https://github.com/naxingyu/opensmile/issues/2#issuecomment-354319202)
 
