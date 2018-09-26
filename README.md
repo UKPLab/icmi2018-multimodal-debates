@@ -43,6 +43,13 @@ $(venv) python preprocessing/turns_segmentation.py resources/turns_segmentation.
 ```
 
 The YAML file "turns_segmentation.yaml" has the input the video file, the textual transcripts file, the output folder path containing the turns segmented, and the input content response measurement (crm) file containing the average impression scores together with other information manually annotated (speaker, type of argumentation being used, and so on).
+Some turns will have less than 3 seconds, and should not be used.
+Please run the following script to delete these small turns:
+
+```
+$(venv) python preprocessing/delete_small_turns.py resources/delete_small_turns.yaml
+```
+
 
 To extract the Mel-Frequency Cepstral Coefficients, run the following script:
 
