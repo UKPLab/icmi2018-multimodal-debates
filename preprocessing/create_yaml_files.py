@@ -15,14 +15,14 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG, filename="create_yaml_files.log",
                         format='%(asctime)s %(levelname)s %(message)s')
     logging.info("Starting script")
-	yaml_file_path = sys.argv[1]
+    yaml_file_path = sys.argv[1]
     with open(yaml_file_path, "r") as yaml_file:
         yaml_file_content = yaml.load(yaml_file)
     dataset_file_path = yaml_file_content["dataset_file_path"][0]
     dataset = load_pickle_file(dataset_file_path)
     turns_list = list(dataset.keys())
-	modality = yaml_file_content["modality"][0]
-    os.makedirs(modality)
+    output_folder_path = yaml_file_content["output_folder_path"][0]
+    os.makedirs(output_folder_path)
     count = 0
     weight_file_name_base = yaml_file_content["weights_file_path"][0]
     output_file_name_base = yaml_file_content["output_file_path"][0]
@@ -32,7 +32,7 @@ if __name__ == '__main__':
     pred_scores_values_file_name_base = yaml_file_content["pred_scores_file_name"][0]
     print(turns_list)
     for turn in turns_list:
-        sub_folder_path = os.path.join(modality, str(count))
+        sub_folder_path = os.path.join(output_folder_path, str(count))
         print(sub_folder_path)
         os.makedirs(sub_folder_path)
         yaml_file_path = os.path.join(sub_folder_path, "parameters.yaml")
