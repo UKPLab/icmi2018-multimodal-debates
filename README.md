@@ -10,7 +10,7 @@ Project maintainer: Pedro Santos (@pedrobisp)
 
 This repository contains experimental software and is published for the sole purpose of giving additional background details.
 
-## Preprocessing
+## Dataset
 
 The transcripts and impression scores are available by request.
 Please contact the project maintainer for obtaining these resources: https://www.informatik.tu-darmstadt.de/ukp/ukp_home/staff_ukp/detailseite_mitarbeiter_1_42304.en.jsp
