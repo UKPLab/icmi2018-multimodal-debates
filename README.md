@@ -24,6 +24,8 @@ The packages used in our experiments can be installed by the following command:
 (venv) pip3 install -r requirements.txt
 ```
 
+## Preprocessing
+
 Besides that, we also used third party open source software for preprocessing the debate video file:
 
 * FFmpeg - https://www.ffmpeg.org/
@@ -79,3 +81,14 @@ $(venv) python preprocessing/multimodal_io.py resources/multimodal_io.yaml
 ```
 
 Please specify in the YAML file the path for the pretrained word embeddings, the oov list, the folder path containing the segmented turns and the path for the output pickle file containing the aligned modalities.
+
+## Reproducing the results
+
+To reproduce the results reported in the paper, you have to create the yaml files for each fold and modality combination.
+Run the following script to do so:
+
+```
+$(venv) python preprocessing/create_yaml_files.py resources/${modality}.yaml
+```
+
+The following yaml files are available in the resources folder: text.yaml, speech.yaml, vision.yaml, text_speech.yaml, text_vision.yaml, speech_vision.yaml, all_modalities.yaml.
