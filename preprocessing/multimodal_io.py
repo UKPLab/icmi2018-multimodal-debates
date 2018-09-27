@@ -133,7 +133,7 @@ class MultimodalReader(object):
                 start_time_seconds = int(start_time)
                 vectors = vision_modality.get(start_time_seconds, [])
                 vectors.append(features)
-                vision_modality[start_time_seconds] = features
+                vision_modality[start_time_seconds] = vectors
         for start_time, vectors in vision_modality.items():
             vision_modality[start_time] = np.average(vectors, axis=0)
         return vision_modality

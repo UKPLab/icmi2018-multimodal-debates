@@ -37,7 +37,7 @@ class VanillaLstm(object):
         self.text_modality_key = "text"
         self.speech_modality_key = "speech"
         self.vision_modality_key = "vision"
-        self.feature_fusion_key = "feature_fusion"
+        self.feature_fusion_modality_key = "feature_fusion"
         self.batch_size = yaml_file_content["batch_size"][0]
         self.nb_epoch = yaml_file_content["nb_epoch"][0]
         self.patience = yaml_file_content["patience"][0]
@@ -52,18 +52,11 @@ class VanillaLstm(object):
         self.text = yaml_file_content["text_modality"][0]
         self.speech = yaml_file_content["speech_modality"][0]
         self.vision = yaml_file_content["vision_modality"][0]
-        self.real_values_name = yaml_file_content["real_values_file_name"][0]
-        self.pred_values_name = yaml_file_content["pred_values_file_name"][0]
-        self.pred_scores_name = yaml_file_content["pred_scores_file_name"][0]
+        self.real_values_file_name = yaml_file_content["real_values_file_name"][0]
+        self.pred_values_file_name = yaml_file_content["pred_values_file_name"][0]
+        self.pred_scores_file_name = yaml_file_content["pred_scores_file_name"][0]
         self.cross_validation = yaml_file_content["cross_validation"][0]
-        n_modalities = 0
-        if self.text:
-            n_modalities += 1
-        if self.vision:
-            n_modalities += 1
-        if self.speech:
-            n_modalities += 1
-        self.multimodal = True if n_modalities > 1 else False
+        self.multimodal = True
         self.activation = "relu" if self.loss == "mse" else "sigmoid"
         self.scores = self.parse_crm_file(crm_file_path)
         if self.speaker != "both": 
@@ -82,14 +75,10 @@ class VanillaLstm(object):
             dev_set = [turns_list[i] for i in dev_set_indices]
         logging.debug("Training set turns:" + str(train_set))
         logging.debug("Development set turns:" + str(dev_set))
-        if self.multimodal:
-            train_set_dict = self.z_normalization_multimodal(turns=train_set)
-            dev_set_dict = self.z_normalization_multimodal(turns=dev_set)
-        else:
-            train_set_dict = self.z_normalization(turns=train_set)
-            dev_set_dict = self.z_normalization(turns=dev_set)
-        train_x, train_y = self.get_x_and_y(train_set_dict)
-        dev_x, dev_y = self.get_x_and_y(dev_set_dict)
+        train_set_dictionary = self.z_normalization_multimodal(turns=train_set)
+        dev_set_dictionary = self.z_normalization_multimodal(turns=dev_set)
+        train_x, train_y = self.get_x_and_y(train_set_dictionary)
+        dev_x, dev_y = self.get_x_and_y(dev_set_dictionary)
         logging.debug("Train_x shape:" + str(train_x.shape))
         logging.debug("Train_y shape:" + str(train_y.shape))
         logging.debug("Dev_x shape:" + str(dev_x.shape))
@@ -97,8 +86,7 @@ class VanillaLstm(object):
         logging.debug(str(train_y))
         logging.debug(str(dev_y))
         self.max_len = max([len(seq) for seq in train_x])
-        self.dev_set_lengths = [len(seq) if len(seq) < self.max_len 
-                                else self.max_len 
+        self.dev_set_lengths = [len(seq) if len(seq) < self.max_len else self.max_len 
                                 for seq in dev_x]
         self.train_x = sequence.pad_sequences(train_x, maxlen=self.max_len,
                                               dtype=train_x.dtype)
@@ -122,7 +110,7 @@ class VanillaLstm(object):
         return obj
     
     def parse_crm_file(self, crm_file_path):
-        scores_dict_mainz_lag = {}
+        scores_dictionary_mainz_lag_4 = {}
         with open(crm_file_path, "r") as crm_file:
             lines = crm_file.readlines()[1:]
             for i in range(len(lines) - 5):
@@ -140,10 +128,10 @@ class VanillaLstm(object):
                     if self.speaker == "Schroeder":
                         delta = delta * -1
                     delta = 1 if delta >= 0. else 0
-                    scores_dict_mainz_lag[time_seconds] = delta
+                    scores_dictionary_mainz_lag_4[time_seconds] = delta
                 else:
-                    scores_dict_mainz_lag[time_seconds] = mainz_voting_avg_lag
-        return scores_dict_mainz_lag
+                    scores_dictionary_mainz_lag_4[time_seconds] = mainz_voting_avg_lag
+        return scores_dictionary_mainz_lag_4
 
     def z_normalization(self, turns):
         matrix = []
@@ -200,13 +188,12 @@ class VanillaLstm(object):
                     row.extend([feature for feature in vector])
                 if self.speech:
                     speech_features = speech_modality.get(second,
-                                                          [0. 
-                                                           for _ in range(13)])
+                                                          [0. for _ in range(13)])
                     row.extend([feature for feature in speech_features])
                 if self.vision:
+                    print(vision_modality)
                     vision_features = vision_modality.get(second,
-                                                          [0. 
-                                                           for _ in range(29)])
+                                                          [0. for _ in range(29)])
                     row.extend([feature for feature in vision_features])
                 matrix.append(row)
                 timestamps.append(second)
@@ -223,10 +210,10 @@ class VanillaLstm(object):
             current_turn = {}
             feature_fusion_modality = {}
             for _ in range(turn_length):
-                current_time = timestamps[current_index]
-                feature_fusion_modality[current_time] = z_matrix[current_index]
+                current_timestamp = timestamps[current_index]
+                feature_fusion_modality[current_timestamp] = z_matrix[current_index]
                 current_index += 1
-            current_turn[self.feature_fusion_key] = feature_fusion_modality
+            current_turn[self.feature_fusion_modality_key] = feature_fusion_modality
             dataset_normalized[current_turn_id] = current_turn
         return dataset_normalized
 
@@ -236,14 +223,7 @@ class VanillaLstm(object):
         for turn, modalities in dictionary.items():
             current_sample_x = []
             current_sample_y = []
-            if self.multimodal:
-                modality = modalities[self.feature_fusion_key]
-            elif self.text:
-                modality = modalities[self.text_modality_key]
-            elif self.speech:
-                modality = modalities[self.speech_modality_key]
-            elif self.vision:
-                modality = modalities[self.vision_modality_key]
+            modality = modalities[self.feature_fusion_modality_key]
             turn_start = int(turn.split("_")[1])
             seconds = sorted(list(modality.keys()))
             current_speaker = turn.split("_")[-1]
@@ -273,32 +253,26 @@ class VanillaLstm(object):
         self.model.add(LSTM(units=self.neurons, dropout=self.dropout,
                             recurrent_dropout=self.recurrent_dropout,
                             return_sequences=True))
-        self.model.add(TimeDistributed(Dense(units=1,
-                                             activation=self.activation)))
-        self.checkpointer = ModelCheckpoint(filepath=self.weights_file_path,
-                                            verbose=1,
+        self.model.add(TimeDistributed(Dense(units=1, activation=self.activation)))
+        self.checkpointer = ModelCheckpoint(filepath=self.weights_file_path, verbose=1,
                                             save_best_only=True)   
 
     def train_evaluate_lstm(self):
         self.setup_model()
         if self.loss != "mse":
-            self.model.compile(loss=self.loss, optimizer='adam',
-                               metrics=["accuracy"])
+            self.model.compile(loss=self.loss, optimizer='adam', metrics=["accuracy"])
         else:
             self.model.compile(loss=self.loss, optimizer='adam')
         self.model.summary()
         if self.cross_validation:
-            self.model.fit(self.train_x, self.train_y,
-                           batch_size=self.batch_size,
+            self.model.fit(self.train_x, self.train_y, batch_size=self.batch_size,
                            epochs=self.nb_epoch, verbose=1,
                            validation_data=(self.dev_x, self.dev_y))
         else:
-            early_stopping = EarlyStopping(monitor="val_loss",
-                                           patience=self.patience,
+            early_stopping = EarlyStopping(monitor="val_loss", patience=self.patience,
                                            verbose=1)
             callbacks = [self.checkpointer, early_stopping]
-            self.model.fit(self.train_x, self.train_y,
-                           batch_size=self.batch_size,
+            self.model.fit(self.train_x, self.train_y, batch_size=self.batch_size,
                            epochs=self.nb_epoch, verbose=1,
                            validation_data=(self.dev_x, self.dev_y),
                            callbacks=callbacks)
@@ -326,9 +300,9 @@ class VanillaLstm(object):
                 original_pred_y.append(pred_value)
         logging.debug(str(original_dev_y))
         logging.debug(str(original_pred_y))
-        self.dump_pickle_file(original_dev_y, self.real_values_name)
-        self.dump_pickle_file(original_pred_y, self.pred_values_name)
-        self.dump_pickle_file(original_scores_pred_y, self.pred_scores_name)
+        self.dump_pickle_file(original_dev_y, self.real_values_file_name)
+        self.dump_pickle_file(original_pred_y, self.pred_values_file_name)
+        self.dump_pickle_file(original_scores_pred_y, self.pred_scores_file_name)
         acc = accuracy_score(original_dev_y, original_pred_y)
         metrics = precision_recall_fscore_support(original_dev_y,
                                                   original_pred_y)
