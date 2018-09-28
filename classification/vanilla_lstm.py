@@ -191,7 +191,6 @@ class VanillaLstm(object):
                                                           [0. for _ in range(13)])
                     row.extend([feature for feature in speech_features])
                 if self.vision:
-                    print(vision_modality)
                     vision_features = vision_modality.get(second,
                                                           [0. for _ in range(29)])
                     row.extend([feature for feature in vision_features])
