@@ -94,3 +94,10 @@ $(venv) python preprocessing/create_yaml_files.py resources/${modality}.yaml
 ```
 
 The following yaml files are available in the resources folder: text.yaml, speech.yaml, vision.yaml, text_speech.yaml, text_vision.yaml, speech_vision.yaml, all_modalities.yaml.
+
+After creating the yaml files for each fold, run the following script for perfoming leave-one-turn-out cross-validation:
+
+```
+$(venv) sh run_scripts.sh $modality_folder
+```
+
