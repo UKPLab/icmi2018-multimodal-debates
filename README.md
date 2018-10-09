@@ -13,6 +13,12 @@ This repository contains experimental software and is published for the sole pur
 ## Dataset
 
 The transcripts and impression scores are available by request.
+If you use this dataset in your work, please cite the following article in your publication:
+
+
+Nagel, F., Maurer, M., & Reinemann, C. (2012). Is there a visual dominance in political communication? How verbal, visual, and vocal communication shape viewers’ impressions of political candidates. In: Journal of Communication, 62, 833-850.
+
+
 Please contact the project maintainer for obtaining these resources: https://www.informatik.tu-darmstadt.de/ukp/ukp_home/staff_ukp/detailseite_mitarbeiter_1_42304.en.jsp
 
 Due to legal issues, we cannot redistribute the debate recording.
